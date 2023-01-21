@@ -42,7 +42,6 @@ function onStartClick() {
     // На всякий случай ещё одна проверка, потому что за время между выбором даты и кликом по кнопке выбранная дата может перестать быть будущей
 
     disableElements()
-
     setTime(initTime)
 
     intervalId = setInterval(() => {
@@ -57,7 +56,6 @@ function timeValidation(initTime) {
     if (initTime < 0) {
         startBtn.setAttribute("disabled", "")
         Notify.failure('Please choose a date in the future');
-        return
     }
 }
 
