@@ -19,15 +19,13 @@ function onCreateClick(e) {
     return
   }
 
-  createPromise(1, firstDelayValue).then(onFulfilled).catch(onRejected)
+  // createPromise(1, firstDelayValue).then(onFulfilled).catch(onRejected)
 
-  if (amountValue > 1) {
-    let nextDelay = firstDelayValue + delayStepValue
+  let nextDelay = firstDelayValue
 
-    for (let i = 2; i <= amountValue; i += 1) {
-      createPromise(i, nextDelay).then(onFulfilled).catch(onRejected)
-      nextDelay += delayStepValue
-    }
+  for (let i = 1; i <= amountValue; i += 1) {
+    createPromise(i, nextDelay).then(onFulfilled).catch(onRejected)
+    nextDelay += delayStepValue
   }
 }
 
