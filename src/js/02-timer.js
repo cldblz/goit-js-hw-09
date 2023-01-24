@@ -22,8 +22,7 @@ const options = {
         const initTime = selectedDateMs - Date.now()
 
         if (initTime < 0) {
-            startBtn.setAttribute("disabled", "")
-            Notify.failure('Please choose a date in the future');
+            timeError()
             return
         }
 
@@ -38,25 +37,31 @@ startBtn.addEventListener("click", onStartClick)
 function onStartClick() {
     const initTime = selectedDateMs - Date.now()
 
-    timeValidation(initTime)
-    // На всякий случай ещё одна проверка, потому что за время между выбором даты и кликом по кнопке выбранная дата может перестать быть будущей
+    if (initTime < 0) {
+        timeError()
+        return
+    }
 
     disableElements()
     setTime(initTime)
 
     intervalId = setInterval(() => {
         const timeToGo = selectedDateMs - Date.now();
-
         setTime(timeToGo)
-        timerStopper(timeToGo)
+
+        const { days, hours, minutes, seconds } = convertMs(timeToGo);
+        const zeroTime = days === "00" && hours === "00" && minutes === "00" && seconds === "00"
+
+        if (zeroTime || timeToGo <= 0) {
+            clearInterval(intervalId)
+        }
+
     }, 1000);
 }
 
-function timeValidation(initTime) {
-    if (initTime < 0) {
-        startBtn.setAttribute("disabled", "")
-        Notify.failure('Please choose a date in the future');
-    }
+function timeError() {
+    startBtn.setAttribute("disabled", "")
+    Notify.failure('Please choose a date in the future');
 }
 
 function disableElements() {
