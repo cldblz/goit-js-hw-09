@@ -47,14 +47,14 @@ function onStartClick() {
 
     intervalId = setInterval(() => {
         const timeToGo = selectedDateMs - Date.now();
+
+        if (timeToGo <= 0) {
+            clearInterval(intervalId)
+            return
+        }
+
         setTime(timeToGo)
 
-        const { days, hours, minutes, seconds } = convertMs(timeToGo);
-        const zeroTime = days === "00" && hours === "00" && minutes === "00" && seconds === "00"
-
-        if (zeroTime || timeToGo <= 0) {
-            clearInterval(intervalId)
-        }
 
     }, 1000);
 }
